@@ -52,3 +52,23 @@ def login_user(user_data: UserLogin, session: SessionDep):
     print("User has been logged in")
 
     return Token(access_token=access_token, refresh_token=refresh_token)
+
+
+@router.delete("/delete/{user_id}", status_code=204)
+def delete_user(user_id: int, session: SessionDep):
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=404, detail="User konnte nicht gefunden werden."
+        )
+    session.delete(user)
+    session.commit()
+    return {"msg": "User deleted!"}
+
+
+@router.get("/{user_id}", response_model=UserRead, status_code=200)
+def get_user(user_id: int, session: SessionDep):
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException("User konnte nicht gefunden werden.")
+    return user
