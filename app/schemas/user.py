@@ -28,3 +28,9 @@ class UserRead(BaseModel):
 
         # Quelle: https://docs.pydantic.dev/latest/concepts/models/#arbitrary-class-instances
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"

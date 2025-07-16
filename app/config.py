@@ -11,8 +11,12 @@ class Settings(BaseSettings):
     POSTGRES_PORT: str
     POSTGRES_DBNAME: str
     DATABASE_URL: str
-    HOST: str
-    PORT: int
+    HOST: str  # Host for the run.py
+    PORT: int  # PORT in run.py
+    SECRET_KEY: str  # JWT
+    ALGORITHM: str  # JWT
+    ACCESS_TOKEN_EXPIRE_MINUTES: int  # JWT
+    REFRESH_TOKEN_EXPIRE_DAYS: int  # JWT
 
     @property
     def database_url(self) -> str:

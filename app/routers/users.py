@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from sqlmodel import select
-from app.core.security import hash_password
+
+from app.core.security import hash_password, verify_password
+from app.core.auth.jwt_handler import create_access_token, create_refresh_token
 from app.db.session import SessionDep
 from app.models.user import User
-from app.schemas.user import UserRead, UserCreate, UserLogin
+from app.schemas.user import Token, UserRead, UserCreate, UserLogin
 
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -31,3 +33,22 @@ def register_user(user_data: UserCreate, session: SessionDep):
     session.commit()
     session.refresh(user)
     return user
+
+
+@router.post("/login", response_model=Token, status_code=200)
+def login_user(user_data: UserLogin, session: SessionDep):
+    # check if user does not exist or email is incorrect
+    user = session.exec(select(User).where(User.email == user_data.email)).first()
+    if not user or not verify_password(user_data.password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Ungültige Anmeldeinformationen")
+
+    # passed the checks, login the user
+
+    token_payload = {"subject": str(user.id), "email": user.email}
+
+    access_token = create_access_token(token_payload)
+    refresh_token = create_refresh_token(token_payload)
+
+    print("User has been logged in")
+
+    return Token(access_token=access_token, refresh_token=refresh_token)
