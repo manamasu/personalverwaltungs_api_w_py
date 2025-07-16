@@ -9,6 +9,7 @@ class User(SQLModel, table=True):
     full_name: str
     email: str = Field(unique=True, index=True)
     hashed_password: str
+    refresh_token_hash: Optional[str] = None
     position: str
     is_active: bool = Field(default=True)
     is_admin: bool = Field(default=False)
