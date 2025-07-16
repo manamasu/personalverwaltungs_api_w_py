@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.db import session
+from app.routers import users
 
 
 @asynccontextmanager
@@ -13,7 +14,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(users.router)
+
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"WelcomeMessage": "You have successfully connected!"}
