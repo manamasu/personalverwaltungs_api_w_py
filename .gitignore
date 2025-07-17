@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 
 *.pyc
+*.pyo
+*.pyd
+postgres_data/
 
 # C extensions
 *.so
@@ -63,10 +66,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask stuff:
-instance/
-.webassets-cache
-
 # Scrapy stuff:
 .scrapy
 
@@ -76,9 +75,6 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
 
 # IPython
 profile_default/
@@ -138,6 +134,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env.docker
 .envrc
 .venv
 env/

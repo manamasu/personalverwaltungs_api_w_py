@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 from pathlib import Path
 from functools import lru_cache
@@ -9,7 +10,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_SERVER: str
     POSTGRES_PORT: str
-    POSTGRES_DBNAME: str
+    POSTGRES_DB: str
     DATABASE_URL: str
     HOST: str  # Host for the run.py
     PORT: int  # PORT in run.py
@@ -25,7 +26,7 @@ class Settings(BaseSettings):
             POSTGRES_PASSWORD=self.POSTGRES_PASSWORD,
             POSTGRES_SERVER=self.POSTGRES_SERVER,
             POSTGRES_PORT=self.POSTGRES_PORT,
-            POSTGRES_DBNAME=self.POSTGRES_DBNAME,
+            POSTGRES_DB=self.POSTGRES_DB,
         )
 
     class Config:
