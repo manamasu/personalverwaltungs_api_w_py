@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    container_name: fastapi_personalverwaltung_app
+    ports:
+      - ${PORT}:${PORT} #From .env.docker
+    env_file:
+      - ".env.docker" # TODO: Wip, doesn't work correctly yet
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    command: ["python", "./run.py"]
+
+  db:
+    image: postgres:17
+    container_name: fastapi_personalverwaltung_db
+    restart: always
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+volumes:
+  postgres_data:
